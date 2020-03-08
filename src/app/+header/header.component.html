@@ -1,0 +1,35 @@
+
+<div class="header">
+
+  <div class="header__col">
+    <h1 class="header__col__title">
+      <span class="header__col__title__app-id">{{ appId }}</span>
+      <small>.evley.app</small>
+    </h1>
+    <small class="header__col__project">
+      <span class="header__col__project__heart">&hearts;</span> open source -&nbsp;
+      <a
+        class="header__col__project__link"
+        target="_blank"
+        [href]="projectLink">
+        fork me
+      </a>
+    </small>
+
+  </div>
+
+  <div class="header__col">
+    <div
+      *ngIf="hasData"
+      class="header__col__import">
+
+      <evley-importer
+        [name]="appId"
+        [importMethods]="importMethods"
+        (importClosed)="onImportClosed($event)">
+      </evley-importer>
+    </div>
+  </div>
+
+
+</div>

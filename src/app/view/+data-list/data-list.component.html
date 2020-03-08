@@ -1,0 +1,10 @@
+
+<h3 class="name">{{ name }} </h3>
+<mat-list class="data-list">
+  <mat-list-item
+    class="data-list__item"
+    *ngFor="let item of items">
+    <h4 mat-line>{{ item.name }}</h4>
+    <p mat-line> {{ item.added  }} </p>
+  </mat-list-item>
+</mat-list>

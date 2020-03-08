@@ -907,6 +907,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@evley/importer@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@evley/importer/-/importer-0.0.2.tgz#eb4ab9b4dac176ea0c4f9c0fa56d6167eac55a25"
+  integrity sha512-K+PVD9TZIc/cy3g42xOD6cqqrKOwh0ueFwUT5dnayneayrLPnQ425Fjg/6ijqk0b/W9ZGv0b/gnwgnNUwiaOeA==
+
 "@istanbuljs/schema@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"

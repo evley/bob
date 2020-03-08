@@ -1,0 +1,20 @@
+.view {
+  display: flex;
+  margin-top: 96px;
+  flex-direction: column;
+
+  &__button-toggle-group {
+    margin: 0px auto 32px auto;
+  }
+
+  &__lists {
+    display: flex;
+    flex-direction: row;
+    margin: 8px;
+
+    &__list {
+      flex: 1;
+      margin: 8px;
+    }
+  }
+}

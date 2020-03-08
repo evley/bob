@@ -1,0 +1,25 @@
+@import 'variables';
+
+.app {
+  height: 100vh;
+  overflow: hidden;
+
+  &--no-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__zero-data {
+
+    &__message {
+      display: flex;
+      align-items: center;
+
+      &__link {
+        text-decoration: none;
+      }
+    }
+  }
+}

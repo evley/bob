@@ -1,0 +1,24 @@
+
+<div class="view">
+
+  <mat-button-toggle-group
+    class="view__button-toggle-group"
+    (change)="onGroupTypeChange($event.value)">
+    <mat-button-toggle
+      *ngFor="let groupType of groupTypes"
+      [value]="groupType"
+      [checked]="isGroupTypeChecked(groupType)">
+      <mat-icon>{{ groupTypeIcon(groupType) }}</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div class="view__lists">
+    <app-data-list
+      class="view__lists__list"
+      *ngFor="let group of groups"
+      [name]="group.name"
+      [items]="group.items">
+    </app-data-list>
+  </div>
+
+</div>

@@ -1,0 +1,24 @@
+$border-colour: #ddd;
+$border-radius: 4px;
+
+.name {
+  background: #fff;
+  margin: 0px;
+  padding: 8px 16px;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  border: 1px solid $border-colour;
+}
+
+.data-list {
+  background-color: #fff;
+  height: calc(100vh - 270px);
+  overflow: auto;
+  border: 1px solid $border-colour;
+  border-top: 0px;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+
+  &__item {
+  }
+}
