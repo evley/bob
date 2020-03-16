@@ -38,13 +38,15 @@ const numberList = [
 ];
 const dateList = [CONSTANTS.headers.added, CONSTANTS.headers.expiry, CONSTANTS.headers.checked];
 
+const localStorageGroupType = `${CONSTANTS.appId}.groupType`;
+
 @Component({
   templateUrl: './view.component.html',
   styleUrls: ['./view.component.scss']
 })
 export class ViewComponent implements OnInit {
   public groupTypes = Object.values(GroupType);
-  public selectedGroupType = Object.values(GroupType)[0];
+  public selectedGroupType = undefined;
   public groups: Group[] = [];
   private _items: DataListItem[] = [];
 
@@ -69,6 +71,7 @@ export class ViewComponent implements OnInit {
   }
 
   public onGroupTypeChange(type: GroupType): void {
+    this._setLocalStorageGroupTypeSelected(type);
     this.selectedGroupType = type;
     this._resetGroups();
     this._groupBy(type);
@@ -168,7 +171,10 @@ export class ViewComponent implements OnInit {
   private _setData(): void {
     const data = this._getData();
     this._items = this._buildDataItems(data);
-    this.onGroupTypeChange(this.selectedGroupType);
+    const groupType = this._getLocalStorageGroupTypeSelected()
+      ? this._getLocalStorageGroupTypeSelected()
+      : Object.values(GroupType)[0];
+    this.onGroupTypeChange(groupType);
   }
 
   private _getData(): object[] {
@@ -204,5 +210,13 @@ export class ViewComponent implements OnInit {
 
   private _goToDefault(): void {
     this._router.navigate(['/']);
+  }
+
+  private _getLocalStorageGroupTypeSelected(): GroupType {
+    return window.localStorage.getItem(localStorageGroupType) as GroupType;
+  }
+
+  private _setLocalStorageGroupTypeSelected(type: GroupType): void {
+    window.localStorage.setItem(localStorageGroupType, type);
   }
 }
