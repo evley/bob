@@ -7,12 +7,15 @@ export const CONSTANTS: Constants = {
   templateLink: 'https://github.com/evley/bob/tree/master/src/assets/template',
   headers: {
     id: 'id',
-    calories: 'calories',
-    water: 'water',
+    name: 'name',
+    quantity: 'quantity',
+    type: 'type',
+    location: 'location',
     added: 'added',
     expiry: 'expiry',
-    location: 'location',
-    type: 'type'
+    checked: 'checked',
+    calories: 'calories',
+    water: 'water'
   }
 };
 
@@ -23,11 +26,14 @@ export interface Constants {
   templateLink: string;
   headers: {
     id: string;
-    calories: string;
-    water: string;
+    name: string;
+    quantity: string;
+    type: string;
+    location: string;
     added: string;
     expiry: string;
-    location: string;
-    type: string;
+    checked: string;
+    calories: string;
+    water: string;
   };
 }
