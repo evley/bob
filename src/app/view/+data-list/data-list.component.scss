@@ -1,5 +1,7 @@
+@import 'variables';
 $border-colour: #ddd;
 $border-radius: 4px;
+$header-height: 270px;
 
 .name {
   background: #fff;
@@ -12,13 +14,30 @@ $border-radius: 4px;
 
 .data-list {
   background-color: #fff;
-  height: calc(100vh - 270px);
+  height: calc(100vh - #{$header-height});
   overflow: auto;
   border: 1px solid $border-colour;
   border-top: 0px;
   border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
 
+  cdk-virtual-scroll-viewport {
+    height: 100%;
+  }
+
   &__item {
+    height: 48px;
+
+    &.mat-list-item-disabled {
+      background-color: #fff;
+    }
+
+    &--warn {
+      color: $warn-colour;
+    }
+
+    &--expired {
+      color: $negative-colour;
+    }
   }
 }
