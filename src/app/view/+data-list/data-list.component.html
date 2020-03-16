@@ -5,16 +5,18 @@
     <mat-list-option
       class="data-list__item"
       *cdkVirtualFor="let item of items"
-      [selected]="hasAddedDate(item)"
+      [selected]="isSelected(item)"
       [class.data-list__item--warn]="!isExpired(item) && (isUnchecked(item) || isExpiring(item))"
       [class.data-list__item--expired]="isExpired(item)"
-      [matTooltip]="tooltip(item)">
+      [matTooltip]="tooltip(item)"
+      matTooltipPosition="before"
+      (click)="dataItemSelected(item)">
       <mat-icon
         *ngIf="hasCalories(item) || hasWater(item)"
         mat-list-icon
         fontSet="mdi"
         [fontIcon]="getIcon(item)"
-        color="primary">
+        [color]="(isSelected(item)) ? 'primary' : 'default'">
       </mat-icon>
       <h4 mat-line>{{ item.name }} {{ displayQuantity(item) }}</h4>
       <small matLine>id: {{ item.id }}</small>

@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { MatSelectionListChange } from '@angular/material/list';
 
 import { DataListItem } from './data-list-item.interface';
 
@@ -15,7 +16,7 @@ export class DataListComponent {
   @Input() public items: DataListItem[] = [];
 
   public get addedCount(): string {
-    return `${this.items.filter((i) => this.hasAddedDate(i)).length}/${this.items.length}`;
+    return `${this.items.filter((i) => i.selected).length}/${this.items.length}`;
   }
 
   public tooltip(item: DataListItem): string {
@@ -30,12 +31,20 @@ export class DataListComponent {
     `;
   }
 
-  public displayQuantity(item: DataListItem): string {
-    return item.quantity && item.quantity > 1 ? `x${item.quantity}` : '';
+  public isSelected(item: DataListItem): boolean {
+    return item.selected;
   }
 
-  public hasAddedDate(item: DataListItem): boolean {
-    return item.added && item.added instanceof Date;
+  public dataItemSelected(selectedItem: DataListItem): void {
+    this.items = [
+      ...this.items.map((item) =>
+        item.id === selectedItem.id ? { ...item, selected: !selectedItem.selected } : item
+      )
+    ];
+  }
+
+  public displayQuantity(item: DataListItem): string {
+    return item.quantity && item.quantity > 1 ? `x${item.quantity}` : '';
   }
 
   public isExpired(item: DataListItem): boolean {

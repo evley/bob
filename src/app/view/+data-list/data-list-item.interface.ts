@@ -9,4 +9,5 @@ export interface DataListItem {
   checked: Date;
   calories: number;
   water: number;
+  selected: boolean;
 }

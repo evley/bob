@@ -216,6 +216,7 @@ export class ViewComponent implements OnInit {
       .map((value) => {
         const item = {} as DataListItem;
         headers.map((header) => (item[header] = this._handleItemValue(header, value[header])));
+        item.selected = Boolean(item.added);
         return item;
       })
       .filter((item) => !!item.name)
