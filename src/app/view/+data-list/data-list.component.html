@@ -6,7 +6,6 @@
       class="data-list__item"
       *cdkVirtualFor="let item of items"
       [selected]="hasAddedDate(item)"
-      disabled="true"
       [class.data-list__item--warn]="!isExpired(item) && (isUnchecked(item) || isExpiring(item))"
       [class.data-list__item--expired]="isExpired(item)">
       <mat-icon

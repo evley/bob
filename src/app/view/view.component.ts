@@ -104,6 +104,8 @@ export class ViewComponent implements OnInit {
       '3_MONTHS' = '3 Months+'
     }
     const groupMap = {};
+    const prefix = `${dateProp} within `;
+    const isKeyExpired = (key: string) => key === dateGroup.EXPIRED;
     Object.values(dateGroup).map((key) => (groupMap[key] = []));
 
     this._items.forEach((item) => {
@@ -120,7 +122,10 @@ export class ViewComponent implements OnInit {
       }
     });
     this.groups = Object.keys(groupMap).reduce(
-      (groups, key) => [...groups, { name: key, items: groupMap[key] }],
+      (groups, key) => [
+        ...groups,
+        { name: `${isKeyExpired(key) ? key : prefix + key}`, items: groupMap[key] }
+      ],
       []
     );
   }
