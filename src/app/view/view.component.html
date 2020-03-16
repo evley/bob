@@ -7,7 +7,8 @@
     <mat-button-toggle
       *ngFor="let groupType of groupTypes"
       [value]="groupType"
-      [checked]="isGroupTypeChecked(groupType)">
+      [checked]="isGroupTypeChecked(groupType)"
+      [title]="groupTypeTitle(groupType)">
       <mat-icon>{{ groupTypeIcon(groupType) }}</mat-icon>
     </mat-button-toggle>
   </mat-button-toggle-group>

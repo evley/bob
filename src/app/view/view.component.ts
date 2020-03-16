@@ -9,17 +9,34 @@ import { Group } from './group.interface';
 enum GroupType {
   LOCATION = 'location',
   TYPE = 'type',
-  DATE = 'date'
+  EXPIRY = 'expiry',
+  CHECKED = 'checked',
+  ADDED = 'added'
 }
 
 const groupTypeIcon = {
   [GroupType.LOCATION]: 'location_on',
   [GroupType.TYPE]: 'category',
-  [GroupType.DATE]: 'date_range'
+  [GroupType.EXPIRY]: 'date_range',
+  [GroupType.CHECKED]: 'check_circle',
+  [GroupType.ADDED]: 'add_shopping_cart'
 };
 
-const numberList = [CONSTANTS.headers.id, CONSTANTS.headers.calories, CONSTANTS.headers.water];
-const dateList = [CONSTANTS.headers.added, CONSTANTS.headers.expiry];
+const groupTypeTitle = {
+  [GroupType.LOCATION]: 'Group by Location',
+  [GroupType.TYPE]: 'Group by Type',
+  [GroupType.EXPIRY]: 'Group by Expiry Date',
+  [GroupType.CHECKED]: 'Group by Checked Date',
+  [GroupType.ADDED]: 'Group by Added Date'
+};
+
+const numberList = [
+  CONSTANTS.headers.id,
+  CONSTANTS.headers.quantity,
+  CONSTANTS.headers.calories,
+  CONSTANTS.headers.water
+];
+const dateList = [CONSTANTS.headers.added, CONSTANTS.headers.expiry, CONSTANTS.headers.checked];
 
 @Component({
   templateUrl: './view.component.html',
@@ -57,6 +74,10 @@ export class ViewComponent implements OnInit {
     return groupTypeIcon[type];
   }
 
+  public groupTypeTitle(type: GroupType): string {
+    return groupTypeTitle[type];
+  }
+
   public isGroupTypeChecked(type: GroupType): boolean {
     return this.selectedGroupType === type;
   }
@@ -69,8 +90,58 @@ export class ViewComponent implements OnInit {
     return {
       [GroupType.LOCATION]: () => this._groupByProp(CONSTANTS.headers.location),
       [GroupType.TYPE]: () => this._groupByProp(CONSTANTS.headers.type),
-      [GroupType.DATE]: () => console.log('### date')
+      [GroupType.EXPIRY]: () => this._groupByDate(CONSTANTS.headers.expiry),
+      [GroupType.CHECKED]: () => this._groupByDate(CONSTANTS.headers.checked),
+      [GroupType.ADDED]: () => this._groupByDate(CONSTANTS.headers.added)
     }[type].call(this);
+  }
+
+  private _groupByDate(dateProp: string): void {
+    enum dateGroup {
+      'EXPIRED' = 'Expired',
+      '3_DAYS' = '3 Days',
+      '3_WEEKS' = '3 Weeks',
+      '3_MONTHS' = '3 Months+'
+    }
+    const groupMap = {};
+    Object.values(dateGroup).map((key) => (groupMap[key] = []));
+
+    this._items.forEach((item) => {
+      if (this._hasDate(dateProp, item)) {
+        if (this._isExpired(item)) {
+          groupMap[dateGroup.EXPIRED].push(item);
+        } else if (this._isDateWithinDays(dateProp, item, 3)) {
+          groupMap[dateGroup['3_DAYS']].push(item);
+        } else if (this._isDateWithinDays(dateProp, item, 21)) {
+          groupMap[dateGroup['3_DAYS']].push(item);
+          groupMap[dateGroup['3_WEEKS']].push(item);
+        } else {
+          groupMap[dateGroup['3_DAYS']].push(item);
+          groupMap[dateGroup['3_WEEKS']].push(item);
+          groupMap[dateGroup['3_MONTHS']].push(item);
+        }
+      }
+    });
+    this.groups = Object.keys(groupMap).reduce(
+      (groups, key) => [...groups, { name: key, items: groupMap[key] }],
+      []
+    );
+  }
+
+  private _isDateWithinDays(dateProp: string, item: DataListItem, days: number): boolean {
+    return item[dateProp] <= this._todaySubtractDays(-days);
+  }
+
+  private _todaySubtractDays(days: number): Date {
+    return new Date(new Date().setDate(new Date().getDate() - days));
+  }
+
+  private _isExpired(item: DataListItem): boolean {
+    return item.expiry <= new Date();
+  }
+
+  private _hasDate(dateProp: string, item: DataListItem): boolean {
+    return item[dateProp] && item[dateProp] instanceof Date;
   }
 
   private _groupByProp(prop: string): void {
@@ -114,7 +185,7 @@ export class ViewComponent implements OnInit {
 
     if (value) {
       if (isInList(dateList)) {
-        return value ? new Date(value) : undefined;
+        return value ? new Date(Date.parse(value)) : undefined;
       } else if (isInList(numberList)) {
         return value ? Number(value.replace(',', '')) : 0;
       } else {
