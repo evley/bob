@@ -113,11 +113,8 @@ export class ViewComponent implements OnInit {
         } else if (this._isDateWithinDays(dateProp, item, 3)) {
           groupMap[dateGroup['3_DAYS']].push(item);
         } else if (this._isDateWithinDays(dateProp, item, 21)) {
-          groupMap[dateGroup['3_DAYS']].push(item);
           groupMap[dateGroup['3_WEEKS']].push(item);
         } else {
-          groupMap[dateGroup['3_DAYS']].push(item);
-          groupMap[dateGroup['3_WEEKS']].push(item);
           groupMap[dateGroup['3_MONTHS']].push(item);
         }
       }
@@ -177,7 +174,9 @@ export class ViewComponent implements OnInit {
         headers.map((header) => (item[header] = this._handleItemValue(header, value[header])));
         return item;
       })
-      .filter((item) => !!item.name);
+      .filter((item) => !!item.name)
+      .sort((a, b) => Number(b.expiry) - Number(a.expiry))
+      .reverse();
   }
 
   private _handleItemValue(header: string, value: string): string | number | Date {
