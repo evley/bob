@@ -15,8 +15,9 @@
 
   <div class="view__lists">
     <app-data-list
-      class="view__lists__list"
       *ngFor="let group of groups"
+      [hidden]="!hasGroupItems(group)"
+      class="view__lists__list"
       [name]="group.name"
       [items]="group.items">
     </app-data-list>

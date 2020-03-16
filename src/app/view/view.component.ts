@@ -64,6 +64,10 @@ export class ViewComponent implements OnInit {
     return this._items.length > 0;
   }
 
+  public hasGroupItems(group: Group): boolean {
+    return group.items.length > 0;
+  }
+
   public onGroupTypeChange(type: GroupType): void {
     this.selectedGroupType = type;
     this._resetGroups();
