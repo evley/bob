@@ -1,13 +1,14 @@
 
 <h3 class="name">{{ name }} <small>({{ addedCount }} added)</small></h3>
 <mat-selection-list class="data-list">
-  <cdk-virtual-scroll-viewport itemSize="48">
+  <cdk-virtual-scroll-viewport itemSize="72">
     <mat-list-option
       class="data-list__item"
       *cdkVirtualFor="let item of items"
       [selected]="hasAddedDate(item)"
       [class.data-list__item--warn]="!isExpired(item) && (isUnchecked(item) || isExpiring(item))"
-      [class.data-list__item--expired]="isExpired(item)">
+      [class.data-list__item--expired]="isExpired(item)"
+      [matTooltip]="tooltip(item)">
       <mat-icon
         *ngIf="hasCalories(item) || hasWater(item)"
         mat-list-icon
@@ -15,9 +16,8 @@
         [fontIcon]="getIcon(item)"
         color="primary">
       </mat-icon>
-      <h4 mat-line>
-        {{ item.name }}
-      </h4>
+      <h4 mat-line>{{ item.name }} {{ displayQuantity(item) }}</h4>
+      <small matLine>id: {{ item.id }}</small>
     </mat-list-option>
   </cdk-virtual-scroll-viewport>
 </mat-selection-list>

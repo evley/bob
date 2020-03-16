@@ -3,6 +3,13 @@ $border-colour: #ddd;
 $border-radius: 4px;
 $header-height: 270px;
 
+
+::ng-deep {
+  .mat-tooltip {
+    white-space: pre-line;
+  }
+}
+
 .name {
   background: #fff;
   margin: 0px;
@@ -27,7 +34,7 @@ $header-height: 270px;
   }
 
   &__item {
-    height: 48px;
+    height: 72px;
 
     &.mat-list-item-disabled {
       background-color: #fff;
