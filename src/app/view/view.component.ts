@@ -11,15 +11,19 @@ enum GroupType {
   TYPE = 'type',
   EXPIRY = 'expiry',
   CHECKED = 'checked',
-  ADDED = 'added'
+  ADDED = 'added',
+  CALORIES = 'calories',
+  WATER = 'water'
 }
 
 const groupTypeIcon = {
-  [GroupType.LOCATION]: 'location_on',
-  [GroupType.TYPE]: 'category',
-  [GroupType.EXPIRY]: 'date_range',
-  [GroupType.CHECKED]: 'check_circle',
-  [GroupType.ADDED]: 'add_shopping_cart'
+  [GroupType.LOCATION]: 'mdi-map-marker',
+  [GroupType.TYPE]: 'mdi-shape',
+  [GroupType.EXPIRY]: 'mdi-calendar-range',
+  [GroupType.CHECKED]: 'mdi-check-all',
+  [GroupType.ADDED]: 'mdi-cart-plus',
+  [GroupType.CALORIES]: 'mdi-food-apple',
+  [GroupType.WATER]: 'mdi-cup-water'
 };
 
 const groupTypeTitle = {
@@ -27,7 +31,9 @@ const groupTypeTitle = {
   [GroupType.TYPE]: 'Group by Type',
   [GroupType.EXPIRY]: 'Group by Expiry Date',
   [GroupType.CHECKED]: 'Group by Checked Date',
-  [GroupType.ADDED]: 'Group by Added Date'
+  [GroupType.ADDED]: 'Group by Added Date',
+  [GroupType.CALORIES]: 'Group Calories (kcal) by Location',
+  [GroupType.WATER]: 'Group Water (ml) by Location'
 };
 
 const numberList = [
@@ -95,15 +101,38 @@ export class ViewComponent implements OnInit {
 
   private _groupBy(type: GroupType): void {
     return {
-      [GroupType.LOCATION]: () => this._groupByProp(CONSTANTS.headers.location),
-      [GroupType.TYPE]: () => this._groupByProp(CONSTANTS.headers.type),
-      [GroupType.EXPIRY]: () => this._groupByDate(CONSTANTS.headers.expiry),
-      [GroupType.CHECKED]: () => this._groupByDate(CONSTANTS.headers.checked),
-      [GroupType.ADDED]: () => this._groupByDate(CONSTANTS.headers.added)
+      [GroupType.LOCATION]: () => this._groupByProp(this._items, CONSTANTS.headers.location),
+      [GroupType.TYPE]: () => this._groupByProp(this._items, CONSTANTS.headers.type),
+      [GroupType.EXPIRY]: () => this._groupByDate(this._items, CONSTANTS.headers.expiry),
+      [GroupType.CHECKED]: () => this._groupByDate(this._items, CONSTANTS.headers.checked),
+      [GroupType.ADDED]: () => this._groupByDate(this._items, CONSTANTS.headers.added),
+      [GroupType.CALORIES]: () =>
+        this._filterPropAndGroupByProp(
+          this._items,
+          CONSTANTS.headers.calories,
+          CONSTANTS.headers.location
+        ),
+      [GroupType.WATER]: () =>
+        this._filterPropAndGroupByProp(
+          this._items,
+          CONSTANTS.headers.water,
+          CONSTANTS.headers.location
+        )
     }[type].call(this);
   }
 
-  private _groupByDate(dateProp: string): void {
+  private _filterPropAndGroupByProp(
+    items: DataListItem[],
+    filterProp: string,
+    groupProp: string
+  ): void {
+    const itemsWithinExpiryWithProp = this._items.filter(
+      (item) => item.expiry > new Date() && item[filterProp] && item[filterProp] > 0
+    );
+    this._groupByProp(itemsWithinExpiryWithProp, groupProp);
+  }
+
+  private _groupByDate(items: DataListItem[], dateProp: string): void {
     enum dateGroup {
       'EXPIRED' = 'Expired',
       '3_DAYS' = '3 Days',
@@ -115,7 +144,7 @@ export class ViewComponent implements OnInit {
     const isKeyExpired = (key: string) => key === dateGroup.EXPIRED;
     Object.values(dateGroup).map((key) => (groupMap[key] = []));
 
-    this._items.forEach((item) => {
+    items.forEach((item) => {
       if (this._hasDate(dateProp, item)) {
         if (this._isExpired(item)) {
           groupMap[dateGroup.EXPIRED].push(item);
@@ -153,9 +182,9 @@ export class ViewComponent implements OnInit {
     return item[dateProp] && item[dateProp] instanceof Date;
   }
 
-  private _groupByProp(prop: string): void {
+  private _groupByProp(items: DataListItem[], prop: string): void {
     const groupMap = {};
-    this._items.forEach((item) =>
+    items.forEach((item) =>
       groupMap[item[prop]] ? groupMap[item[prop]].push(item) : (groupMap[item[prop]] = [item])
     );
     this.groups = Object.keys(groupMap).reduce(
