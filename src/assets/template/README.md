@@ -12,7 +12,6 @@ The above headers, with their data format is expected. However, how you decide t
 | Quantity | `number` | The quantity of the item. As granular as you wish. For example, you can make a pack of paracetamol of 1 or 8 individual tablets. |
 | Type | `string` | Name of the type. Ideally, you should be consistent to maintain a type ording list. I.e. Medical, Tool, Food, or Water. |
 | Location | `string` | Name of a place to represent the location. Ideally, you should be consistent to maintain a location ording list. I.e. BOB, Utility, or Car. |
-list. I.e. Medical, Tool, Food, or Water. |
 | Added | `date` | Date in which you added the item. NOTE: maintain a correct date format. Would recommend YYYY-MM-DD such as 2016-10-01. |
 | Expiry | `date` | Date in which the item expires. NOTE: maintain a correct date format. Would recommend YYYY-MM-DD such as 2016-10-01. |
 | Checked | `date` | Date in which you last checked the item. NOTE: maintain a correct date format. Would recommend YYYY-MM-DD such as 2016-10-01. |
