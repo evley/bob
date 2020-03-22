@@ -1,0 +1,9 @@
+ID,Name,Quantity,Type,Location,Added,Expiry,Checked,Calories,Water
+1,vegetable soup,1,Food,Attic,2016-01-07,2017-10-01,2016-01-07,140,120
+2,vegetable soup,1,Food,Attic,2016-01-07,2017-10-01,2016-01-07,140,120
+3,Nurofen,1,Medical,Car,2020-03-12,2022-01-01,2020-03-12,0,0
+4,Water Bottle,6,Water,Utility,2020-03-12,2021-03-12,2020-03-12,0,3000
+5,Powered Milk,1,Food,BOB,2020-03-12,2021-12-01,2020-03-12,12500,0
+6,Baked Beans,1,Food,Utility,2020-03-12,2022-01-01,2020-03-12,364,0
+7,Coffee,1,Food,Utility,2020-03-13,2022-01-01,2020-03-13,0,0
+8,Knife,1,Tool,BOB,2020-03-13,,2020-3-13,0,0
